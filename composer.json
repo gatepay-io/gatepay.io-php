@@ -8,6 +8,6 @@
     "autoload": {
             "files": [
                 "src/init.php"
-            ],
-    },
+            ]
+    }
 }
