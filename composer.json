@@ -1,0 +1,8 @@
+{
+    "name": "gatepay-io/gatepay.io-php",
+    "description": "gatepay rpc client for php",
+    "type": "library",
+    "require": {
+        "hprose/hprose": "^2.0"
+    }
+}
