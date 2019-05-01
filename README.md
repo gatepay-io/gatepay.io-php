@@ -38,11 +38,9 @@ composer require gatepay-io/gatepay.io-php
 然后在入口的位置声明使用类
 
 ```php
-<?php
   require_once './autoload.php';
   use \gatepayio\Api;
   $api = new Api();
-?>
 ```
 
 现在进入正题，gatepay提供三种接口，分别是anypay，stablepay，grouppay，不论哪种接口，我们都需要使用gatepay后台提供我们的appkey和appsecret。
