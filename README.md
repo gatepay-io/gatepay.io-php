@@ -26,9 +26,9 @@ gatepay.io php sdk
 
 接下来我们讲讲这个sdk怎么耍起来，先是在你的应用的composer里新增这个sdk
 
-···
+```bash
 composer require gatepay-io/gatepay.io-php
-···
+```
 
 
 现在进入正题，gatepay提供三种接口，分别是anypay，stablepay，grouppay。
