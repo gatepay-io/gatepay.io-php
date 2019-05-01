@@ -13,7 +13,12 @@ gatepay.io php sdk
 
 2. 支付成功后前台跳转地址，作用是 如果收款成功了，这个页面要跳转到哪里去，如果是做一个会员充值的应用，那么这个前台跳转地址应该是跳转到会员中心的首页或者钱包的首页。
 
-3. 用户支付后未到账（可能超时付款），支付页面显示的反馈按钮链接， 这个就是如果用户支付超时，则页面跳转到哪里去，这个可填可不填，如果想要回到支付的上一页 可以填写 “javascript:history.go(-1);”
+3. 用户支付后未到账（可能超时付款），支付页面显示的反馈按钮链接， 这个就是如果用户支付超时，则页面跳转到哪里去，这个可填可不填，如果想要回到支付的上一页 可以填写
+
+```javascript
+javascript:history.go(-1);
+```
+
 
 4. 个人任意金额支付宝二维码, 手机支付宝->收钱->不填金额->保存图片，上传到后台就可以了。
 
@@ -30,12 +35,33 @@ gatepay.io php sdk
 composer require gatepay-io/gatepay.io-php
 ```
 
+然后在入口的位置声明使用类
 
-现在进入正题，gatepay提供三种接口，分别是anypay，stablepay，grouppay。
+```php
+<?php
+  require_once './autoload.php';
+  use \gatepayio\Api;
+  $api = new Api();
+?>
+```
+
+现在进入正题，gatepay提供三种接口，分别是anypay，stablepay，grouppay，不论哪种接口，我们都需要使用gatepay后台提供我们的appkey和appsecret。
+
+```php
+$appkey = 'your appkey from gatepay';
+$appsecret = 'your appsecret from gatepay';
+```
 
 1. 任意金额支付 anypay,
 
 这个主要的特点是：金额是任意的，无需后台提前上传二维码，填写商品啥的。比如你的应用是不固定价格的服务，比如充值会员的服务，想充多少充多少。那这个比较合适搞。
+
+调用也很简单，先声明一个接口对象：
+```php
+$price = 1.00; //要充值
+```
+
+
 
 
 
