@@ -83,7 +83,48 @@ else{
 }
 ```
 
+2.固定商品支付 stablepay,
 
+这个主要的特点是，先要去管理后台->产品卡密->产品管理里创建一个产品，然后上传支付宝微信二维码。
+
+然后在管理后台->产品卡密->卡密管理 里导入这个产品的卡密。
+
+感觉是很麻烦，但是这个stablepay 可以帮我们做到销售卡密的过程，比如你要卖什么xxx影视会员点卡之类，对接这个api就可以。
+
+直接上代码：
+
+```php
+$product_id = 8; //产品的编号(ID)， 这个在管理后台->产品卡密->产品管理里可以看到。
+$out_order_id = uniqid(); //你的系统产生的订单号，这里演示 就是搞随机函数生成了一个单号
+$custom = 'terry'; //这个字段是自定义的字段，比如要充值给你的网站哪个用户， 我这里填写的是充值给我的客户名叫terry的那个家伙。
+$type = 'wechat'; //这个很明显了，支付方式，这里填的是微信， 如果是支付宝，填写alipay。
+//组装参数
+$params = [
+  'product_id'=>$product_id,
+  'type'=>$type,
+  'out_order_id'=>$out_order_id,
+  'custom'=>$custom,
+];
+//开始支付请求(分别是:授权->签名->组装生成连接->请求)
+$response = $api->auth($appkey,$appsecret)->sign($params)->route('stablepay','create')->request();
+//做下判断，看看是否生成成功，
+//print_r($response);
+if($response && $response['code']==100){
+  //生成支付连接成功了，
+    $pay_url = $response['data']['pay_url'];//支付的连接
+    //跳转到gatepay那里去支付
+    header("location:".$pay_url);
+}
+else{
+  //出了问题？
+    if($response){
+      echo $response['msg'];
+    }
+    else{
+      echo '服务器开了点小差~~';
+    }
+}
+```
 
 
 
