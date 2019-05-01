@@ -125,6 +125,45 @@ else{
     }
 }
 ```
+3. 组合商品支付  grouppay,
+
+可以实现对多个固定商品 组合后进行支付， 如果你想实现 一些组合出售的需求，可以使用这个接口。
+
+直接上代码
+
+```php
+$fields = '8:1,7:2';//代表产品ID为8的购买1件，产品ID为7的购买2件 
+$out_order_id = uniqid(); //你的系统产生的订单号，这里演示 就是搞随机函数生成了一个单号
+$custom = 'terry'; //这个字段是自定义的字段，比如要充值给你的网站哪个用户， 我这里填写的是充值给我的客户名叫terry的那个家伙。
+$type = 'wechat'; //这个很明显了，支付方式，这里填的是微信， 如果是支付宝，填写alipay。
+//组装参数
+$params = [
+  'fields'=>$fields,
+  'type'=>$type,
+  'out_order_id'=>$out_order_id,
+  'custom'=>$custom,
+];
+//开始支付请求(分别是:授权->签名->组装生成连接->请求)
+$response = $api->auth($appkey,$appsecret)->sign($params)->route('grouppay','create')->request();
+//做下判断，看看是否生成成功，
+//print_r($response);
+if($response && $response['code']==100){
+  //生成支付连接成功了，
+    $pay_url = $response['data']['pay_url'];//支付的连接
+    //跳转到gatepay那里去支付
+    header("location:".$pay_url);
+}
+else{
+  //出了问题？
+    if($response){
+      echo $response['msg'];
+    }
+    else{
+      echo '服务器开了点小差~~';
+    }
+}
+```
+
 
 
 
